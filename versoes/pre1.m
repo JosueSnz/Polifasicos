@@ -57,16 +57,14 @@ dados(1)= struct("Consumidor", "Consumidor 1", "W", P31, "Q", Q31, "S", S31, "FP
 %% Consumidor 2 sem a geração fotovoltaica
 P32= 55000;
 fp2= 0.89;
-Il2= P32/(sqrt(3)*abs(vab)*cos(fp2));
 S32= P32/fp2;
 angulo2= acos(fp2);
 Q32= S32*sin(angulo2);
 S2= P32+(Q32*i);
-S2i2= S2/3;
 
-Ia2= conj(S2i2/Van);
-Ib2= conj(S2i2/Vbn);  %% alterar planilha
-Ic2= conj(S2i2/Vcn);
+Ia2= conj(S2/(sqrt(3)*vab));
+Ib2= conj(S2/(sqrt(3)*vbc));  %% formula alterada, calculos ok
+Ic2= conj(S2/(sqrt(3)*vca));
 
 disp("\nConsumidor 2");
 disp(["S= ", num2str(S32), " [VA]"]);
@@ -108,14 +106,14 @@ Vza= zl*Ial;
 Vzb= zl*Ibl;
 Vzc= zl*Icl;
 
-Plta= 25*(real(Ial)^2);
-Qlta= 21*(imag(Ial)^2);
+Plta= 25*(abs(Ial)^2); %% formula alterada, apresentacao previa
+Qlta= 21*(abs(Ial)^2);
 
-Pltb= 25*(real(Ibl)^2);
-Qltb= 21*(imag(Ibl)^2);
+Pltb= 25*(abs(Ibl)^2);
+Qltb= 21*(abs(Ibl)^2);
 
-Pltc= 25*(real(Icl)^2);
-Qltc= 21*(imag(Icl)^2);
+Pltc= 25*(abs(Icl)^2);
+Qltc= 21*(abs(Icl)^2);
 
 Plt= Plta+Pltb+Pltc;
 Qlt= Qlta+Qltb+Qltc;
@@ -147,7 +145,7 @@ disp(["F.P= ", num2str(fpf)]);
 
 dados(5)= struct("Consumidor", "Fonte", "W", P3f, "Q", Q3f, "S", S3f, "FP", fpf);
 
-Ean= Vza+Van;
+Ean= Vza+Van; %% conferir se essa conta bate com o esperado
 Ebn= Vzb+Vbn;
 Ecn= Vzc+Vcn;
 
@@ -170,7 +168,7 @@ fp2g= 0.869552;
 S32g= P32g/fp2g;
 angulo2g= acos(fp2g);
 Q32g= S32g*sin(angulo2g);
-S2g= (P32-P32g)+(Q32+Q32g)*i;
+S2g= (P32-P32g)+(Q32-Q32g)*i; %% - q
 S2gi= S2g/3;
 P32gg= real(S2g);
 Q32gg= imag(S2g);
@@ -194,14 +192,14 @@ Vzag= zl*Ialg;
 Vzbg= zl*Iblg;
 Vzcg= zl*Iclg;
 
-Pltag= 25*(real(Ialg)^2);
-Qltag= 21*(imag(Ialg)^2);
+Pltag= 25*(abs(Ialg)^2); %% conta alterada, apresentacao parcial
+Qltag= 21*(abs(Ialg)^2);
 
-Pltbg= 25*(real(Iblg)^2);
-Qltbg= 21*(imag(Iblg)^2);
+Pltbg= 25*(abs(Iblg)^2);
+Qltbg= 21*(abs(Iblg)^2);
 
-Pltcg= 25*(real(Iclg)^2);
-Qltcg= 21*(imag(Iclg)^2);
+Pltcg= 25*(abs(Iclg)^2);
+Qltcg= 21*(abs(Iclg)^2);
 
 Pltg= Pltag+Pltbg+Pltcg;
 Qltg= Qltag+Qltbg+Qltcg;
@@ -310,15 +308,14 @@ for j= 1:38
     Sg= Pg/fpg;
     Qg= sqrt((Sg^2)-(Pg^2));
     P32n= P32-Pg;
-    Q32n= Q32+Qg; %% verficar se soma ou subtrai
+    Q32n= Q32-Qg; %% - q
     S32n= sqrt((P32n^2)+(Q32n^2));
     fp2n= norm(P32n)/S32n;
     S2n= P32n+(Q32n*i);
-    S2ni= S2n/3;
 
-    Ia2n= conj(S2ni/Van);
-    Ib2n= conj(S2ni/Vbn);
-    Ic2n= conj(S2ni/Vcn);
+    Ia2n= conj(S2n/sqrt(3)*vab); %% conta alterada
+    Ib2n= conj(S2n/sqrt(3)*vbc);
+    Ic2n= conj(S2n/sqrt(3)*vca);
 
     Ialn= Ia+Ia2n+Ia3;
     Ibln= Ib+Ib2n+Ib3;
