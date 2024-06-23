@@ -1,4 +1,4 @@
-function consumo= fonte(linha,banco,S31,S32,S33,S34,S35,vab,vbc,vca)
+function consumo= fonte(linha,banco,S31,S32,S33,S34,S35,van,vbn,vcn)
 
   %% ---------------------------------------------------------------------------
 
@@ -10,9 +10,9 @@ function consumo= fonte(linha,banco,S31,S32,S33,S34,S35,vab,vbc,vca)
     S3f= P3f+(Q3f*i);
     fpf= cos(angle(S3f));
 
-    Ean= (abs(linha(j).("vza")+vab)/sqrt(3))*exp(1i*(angle(linha(j).("vza")+vab)-deg2rad(30)));
-    Ecn= (abs(linha(j).("vzb")+vca)/sqrt(3))*exp(1i*(angle(linha(j).("vzb")+vca)-deg2rad(30)));
-    Ebn= (abs(linha(j).("vzc")+vbc)/sqrt(3))*exp(1i*(angle(linha(j).("vzc")+vbc)-deg2rad(30)));
+    Ean= linha(j).("vza")+van;
+    Ecn= linha(j).("vzb")+vcn;
+    Ebn= linha(j).("vzc")+vbn;
 
     if j <= 1
       tipo= "estrela";

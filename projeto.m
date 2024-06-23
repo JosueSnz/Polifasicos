@@ -36,7 +36,7 @@ vbn= (abs(vbc)/sqrt(3))*exp(1i*(angle(vbc)-deg2rad(30)));
 
 %% Impedancia de linha e fonte
 linha= impedancia(banco,Ia1,Ib1,Ic1,Ia2,Ib2,Ic2,Ia3,Ib3,Ic3,Ia4,Ib4,Ic4,Ia5,Ib5,Ic5);
-consumo= fonte(linha,banco,S31,S32,S33,S34,S35,vab,vbc,vca);
+consumo= fonte(linha,banco,S31,S32,S33,S34,S35,van,vbn,vcn);
 
 %% Decisao estrela ou delta no banco de capacitores
 decisao(1)= struct("Conexao", "Estrela", "Capacitancia [uF]", banco(1).("Capacitancia Y")*10^6, "Corrente Maxima", abs(linha(1).Ia), "Tensão Máxima", abs(consumo(1).Ean));
@@ -92,7 +92,7 @@ for j= 1:38
     Sg= Pg/fpg;
     Qg= sqrt((Sg^2)-(Pg^2));
     P32n= P32-Pg;
-    Q32n= Q32-Qg-banco(3).VARc; %%-banco(3).VARc correcao local
+    Q32n= Q32-Qg; %%-banco(3).VARc correcao local
     S32n= P32n+(Q32n*i);
     fp2n= abs(cos(angle(S32n)));
 
@@ -119,9 +119,9 @@ for j= 1:38
     vzcn= zl*Icln;
 
     %% Tensao de fase da fonte
-    Eann= (abs(vzan+vab)/sqrt(3))*exp(1i*(angle(vzan+vab)-deg2rad(30)));
-    Ecnn= (abs(vzan+vca)/sqrt(3))*exp(1i*(angle(vzan+vca)-deg2rad(30)));
-    Ebnn= (abs(vzan+vbc)/sqrt(3))*exp(1i*(angle(vzan+vbc)-deg2rad(30)));
+    Eann= vzan+van;
+    Ecnn= vzbn+vcn;
+    Ebnn= vzcn+vbn;
 
     consumidor2g(j)= struct("Horas", horas, "Wg", Pg, "VARg", Qg, "VAg", Sg, "F.Pg", fpg, "W2", P32n, "VAR2", Q32n, "VA2", abs(S32n), "F.P2", fp2n, "CARGA", carga);
   endif
