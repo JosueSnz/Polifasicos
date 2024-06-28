@@ -26,10 +26,10 @@ vbn= (abs(vbc)/sqrt(3))*exp(1i*(angle(vbc)-deg2rad(30)));
 
 %% Calculo de cada consumidor
 [Ia1,Ib1,Ic1,S31,P31,Q31,fp1]= consumidor_1(van,vbn,vcn);
-[Ia2,Ib2,Ic2,S32,P32,Q32,fp2]= consumidor_2(vab,vbc,vca);
+[Ia2,Ib2,Ic2,S32,P32,Q32,fp2]= consumidor_2(van,vbn,vcn);
 [Ia3,Ib3,Ic3,S33,P33,Q33,fp3]= consumidor_3(vab,van);
-[Ia4,Ib4,Ic4,S34,P34,Q34,fp4]= consumidor_4(vab,vbc,vca);
-[Ia5,Ib5,Ic5,S35,P35,Q35,fp5]= consumidor_5(vab,vbc,vca);
+[Ia4,Ib4,Ic4,S34,P34,Q34,fp4]= consumidor_4(van,vbn,vcn);
+[Ia5,Ib5,Ic5,S35,P35,Q35,fp5]= consumidor_5(van,vbn,vcn);
 
 %% Calculo do banco de capacitores, ajustado para 0,935
 [banco,corrigido]= capacitor(S31,S32,S33,S34,S35,vab,vbc,vca,van,vbn,vcn);
@@ -49,7 +49,7 @@ dados(3)= struct("Consumidor", "Consumidor 3", "W", P33, "Q", Q33, "S", abs(S33)
 dados(4)= struct("Consumidor", "Consumidor 4", "W", P34, "Q", Q34, "S", abs(S34), "FP", fp4);
 dados(5)= struct("Consumidor", "Consumidor 5", "W", P35, "Q", Q35, "S", abs(S35), "FP", fp5);
 dados(6)= struct("Consumidor", "Correção", "W", 0, "Q", banco(1).("VARc"), "S", 0, "FP", 0);
-dados(7)= struct("Consumidor", "Linha", "W", linha(1).("W"), "Q", linha(1).("Q"), "S", abs(linha(1).("S")), "FP", linha(1).("FP"));
+dados(7)= struct("Consumidor", "Linha", "W", linha(1).("W"), "Q", linha(1).("Q"), "S", abs(linha(1).("S")), "FP", linha(1).("FP")); %% 1 Y 2 T
 dados(8)= struct("Consumidor", "Fonte", "W", consumo(1).("W"), "Q", consumo(1).("Q"), "S", consumo(1).("S"), "FP", consumo(1).("FP"));
 
 %% Correção feita em um banco para cada consumidor, em estrela (verifique linha e fonte)
@@ -127,7 +127,7 @@ for j= 1:38
   endif
 
   %% Novo triangulo total
-  P3fn= (linha(1).W)+P35+P34+P33+(consumidor2g(j).W2)+P31;
+  P3fn= (linha(1).W)+P35+P34+P33+(consumidor2g(j).W2)+P31; %% linha(2) T
   Q3fn= (linha(1).Q)-(banco(1).VARc)+Q35+Q34+Q33+(consumidor2g(j).VAR2)+Q31; %% linha(2) T
   S3fn= P3fn+(Q3fn*i);
   fpfn= cos(angle(S3fn));

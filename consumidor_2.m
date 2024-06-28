@@ -1,4 +1,4 @@
-function [Ia2,Ib2,Ic2,S32,P32,Q32,fp2]= consumidor_2(vab,vbc,vca)
+function [Ia2,Ib2,Ic2,S32,P32,Q32,fp2]= consumidor_2(van,vbn,vcn)
 
   %% ---------------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ function [Ia2,Ib2,Ic2,S32,P32,Q32,fp2]= consumidor_2(vab,vbc,vca)
   S32= P32+(Q32*i);
 
   %% Corrente de cada fase
-  Ia2= conj(S32/(sqrt(3)*vab));
-  Ib2= conj(S32/(sqrt(3)*vbc));
-  Ic2= conj(S32/(sqrt(3)*vca));
+  Ia2= conj(S32/(3*van));
+  Ib2= conj(S32/(3*vbn));
+  Ic2= conj(S32/(3*vcn));
 
   disp("\nConsumidor 2");
   disp(["S= ", num2str(abs(S32)), " [VA]"]);

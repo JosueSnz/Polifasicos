@@ -1,4 +1,4 @@
-function [Ia4,Ib4,Ic4,S34,P34,Q34,fp4]= consumidor_4(vab,vbc,vca)
+function [Ia4,Ib4,Ic4,S34,P34,Q34,fp4]= consumidor_4(van,vbn,vcn)
 
   %% ---------------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ function [Ia4,Ib4,Ic4,S34,P34,Q34,fp4]= consumidor_4(vab,vbc,vca)
   fp4= cos(angle(S34));
 
   %% Corrente de cada fase
-  Ia4= conj(S34/(sqrt(3)*vab));
-  Ib4= conj(S34/(sqrt(3)*vbc));
-  Ic4= conj(S34/(sqrt(3)*vca));
+  Ia4= conj(S34/(3*van));
+  Ib4= conj(S34/(3*vbn));
+  Ic4= conj(S34/(3*vcn));
 
   disp("\nConsumidor 4");
   disp(["S= ", num2str(abs(S34)), " [VA]"]);
